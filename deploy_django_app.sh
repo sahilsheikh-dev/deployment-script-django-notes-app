@@ -9,10 +9,11 @@ giturl=https://github.com/sahilsheikh-dev/django-notes-app.git
 
 code_clone() {
 	echo "========================================================="
-        echo "Cloning DJango App"
-        git clone $giturl
+		echo "Cloning DJango App"
+		git clone $giturl
 	cd $dirname
 }
+
 code_pull() {
 	echo "========================================================="
 	echo "Already Cloned, Pulling latest repo from git"
@@ -27,10 +28,12 @@ install_requirements() {
 	sudo yum update -y
 	sudo yum install docker -y
 	docker --version
+	
 	echo "---------------------------------------------------------"
 	sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
 	docker-compose --version
+	
 	echo "---------------------------------------------------------"
 	sudo yum install nginx -y
 	nginx -version
@@ -39,7 +42,7 @@ install_requirements() {
 required_restart() {
 	echo "========================================================="
 	echo "Starting services"
-        sudo chown $USER /var/run/docker.sock
+	sudo chown $USER /var/run/docker.sock
 	#sudo systemctl start docker
 	#sudo systemctl enable docker
 	#sudo systemctl enable nginx
@@ -48,8 +51,8 @@ required_restart() {
 deoply() {
 	echo "========================================================="
 	echo "Deploying app to docker"
-        docker build -t notes-app .
-        echo "---------------------------------------------------------"
+	docker build -t notes-app .
+	echo "---------------------------------------------------------"
 	#docker run -d -p 8000:8000 notes-app:latest
 	echo "---------------------------------------------------------"
 	docker-compose up -d
@@ -83,4 +86,3 @@ then
 fi
 
 echo "******************DEPLOYMENT COMPLETED*******************"
-
