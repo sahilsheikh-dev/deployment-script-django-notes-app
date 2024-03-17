@@ -36,8 +36,7 @@ install_requirements() {
 	
 	echo "---------------------------------------------------------"
 	
-	if [ -d /usr/local/bin/docker-compose ]
-	then
+	if [ -f /usr/local/bin/docker-compose ]; then
 		echo "******************DOCKER-COMPOSE PACKAGE ALREADY EXISTS******************"
 	else
 		sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
