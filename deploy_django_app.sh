@@ -1,7 +1,7 @@
 #!/bin/bash
 
 <<task
-this script is to deploy django application
+this script is to deploy django application on docker-compose
 task
 
 dirname=django-notes-app
@@ -9,29 +9,35 @@ giturl=https://github.com/sahilsheikh-dev/django-notes-app.git
 
 code_clone() {
 	echo "========================================================="
-		echo "Cloning DJango App"
+		echo "******************CLONING DJANGO APP******************"
 		git clone $giturl
 	cd $dirname
 }
 
 code_pull() {
 	echo "========================================================="
-	echo "Already Cloned, Pulling latest repo from git"
+	echo "******************REPOSITORY ALREADY CLONED, PULLING LATEST REPOSITORY FROM GIT******************"
 	cd $dirname
 	git pull origin main
 }
 
 install_requirements() {
 	echo "========================================================="
-	echo "Installing required packages"
+	echo "******************INSTALLING REQUIRED PACKAGES******************"
 	
 	sudo yum update -y
 	sudo yum install docker -y
 	docker --version
 	
 	echo "---------------------------------------------------------"
-	sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
+	
+	if [ -d /usr/local/bin/docker-compose ]
+	then
+		echo "******************DOCKER-COMPOSE PACKAGE ALREADY EXISTS******************"
+	else
+		sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+		sudo chmod +x /usr/local/bin/docker-compose
+	fi
 	docker-compose --version
 	
 	echo "---------------------------------------------------------"
@@ -41,7 +47,7 @@ install_requirements() {
 
 required_restart() {
 	echo "========================================================="
-	echo "Starting services"
+	echo "******************SERVICES CHECK AND START******************"
 	sudo chown $USER /var/run/docker.sock
 	#sudo systemctl start docker
 	#sudo systemctl enable docker
@@ -50,7 +56,7 @@ required_restart() {
 
 deoply() {
 	echo "========================================================="
-	echo "Deploying app to docker"
+	echo "******************DEPLOYING APP TO DOCKER******************"
 	docker build -t notes-app .
 	echo "---------------------------------------------------------"
 	#docker run -d -p 8000:8000 notes-app:latest
@@ -58,7 +64,7 @@ deoply() {
 	docker-compose up -d
 }
 
-echo "******************DEPLOYMENT STARTED*******************"
+echo "******************DEPLOYMENT STARTED******************"
 
 if [ -d $dirname ]
 then
@@ -69,20 +75,20 @@ fi
 
 if ! install_requirements
 then
-	echo "Installation Failed"
+	echo "******************PACKAGES INSTALLATION FAILED******************"
 	exit 1
 fi
 
 if ! required_restart
 then
-	echo "System Fault Occured"
+	echo "******************SYSTEM FAULT OCCURED******************"
 	exit 1
 fi
 
 if ! deoply
 then
-	echo "Failed Deployment"
+	echo "******************DEPLOYMENT FAILED******************"
 	exit 1
 fi
 
-echo "******************DEPLOYMENT COMPLETED*******************"
+echo "******************DEPLOYMENT COMPLETED******************"
