@@ -1,7 +1,12 @@
 #!/bin/bash
 
 <<task
-this script is to deploy django application on docker-compose
+This script is to deploy django application on docker-compose
+
+1. Clone or Pull the repository
+2. Install docker, docker-compose, and nginx packages
+3. Check and Start the services
+4. Build the image and run it
 task
 
 dirname=django-notes-app
