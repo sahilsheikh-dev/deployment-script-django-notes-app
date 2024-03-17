@@ -41,6 +41,7 @@ install_requirements() {
 	else
 		sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
 		sudo chmod +x /usr/local/bin/docker-compose
+		ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
 	fi
 	docker-compose --version
 	
@@ -53,9 +54,9 @@ required_restart() {
 	echo "========================================================="
 	echo "******************SERVICES CHECK AND START******************"
 	sudo chown $USER /var/run/docker.sock
-	#sudo systemctl start docker
-	#sudo systemctl enable docker
-	#sudo systemctl enable nginx
+	sudo systemctl start docker
+	sudo systemctl enable docker
+	sudo systemctl enable nginx
 }
 
 deoply() {
